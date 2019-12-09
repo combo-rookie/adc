@@ -22,6 +22,14 @@ public class AdminController {
 	public void show(HttpServletRequest req, HttpServletResponse rep, String password, String accounts)
 			throws ServletException, IOException {
 		System.out.println("111111111");
+		System.out.println("111111111");
+
+		System.out.println("111111111");
+		System.out.println("111111111");
+		System.out.println("111111111");
+		System.out.println("111111111");
+		System.out.println("111111111");
+
 		Admin admin = service.selectByAccounts(req, accounts, password);
 		req.getSession().setAttribute("admin", admin);
 		if (admin == null) {
