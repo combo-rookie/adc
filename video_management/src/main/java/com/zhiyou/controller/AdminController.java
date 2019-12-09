@@ -29,6 +29,14 @@ public class AdminController {
 		System.out.println("111111111");
 		System.out.println("111111111");
 		System.out.println("111111111");
+		System.out.println("21222222222222");
+		System.out.println("21222222222222");
+		System.out.println("21222222222222");
+		System.out.println("21222222222222");
+		System.out.println("21222222222222");
+		System.out.println("21222222222222");
+
+		System.out.println("21222222222222");
 
 		Admin admin = service.selectByAccounts(req, accounts, password);
 		req.getSession().setAttribute("admin", admin);
