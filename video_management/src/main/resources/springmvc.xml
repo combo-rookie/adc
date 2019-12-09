@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+	
+
+	<!--1：扫描器 告诉Spring  扫描哪个包下的注解 -->
+	<context:component-scan base-package="com.zhiyou"/>
+	<!--2：SpringMVC注解驱动 -->
+	<mvc:annotation-driven/>
+	<mvc:default-servlet-handler/>
+	<!--3：视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	<!-- 4：加载db属性文件 -->
+	<util:properties location="classpath:db.properties" id="db"/>
+	<!-- 5：配置数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="#{db.driver}"/>
+		<property name="url" value="#{db.url}"/>
+		<property name="username" value="#{db.username}"/>
+		<property name="password" value="#{db.password}"/>
+	</bean>
+	<!-- 6：配置MyBatis sqlSession -->
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!--指定Mybatis配置文件的位置  -->
+		<property name="configLocation" value="classpath:Mybatis.xml"/>
+		<!-- 指定mapper文件下位置 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+	</bean>
+	<!-- 7:配置接口的扫描 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 配置dao层接口所在包的位置 -->
+		<property name="basePackage" value="com.zhiyou.mapper"/>
+		<!-- 引用Mybatis的session工厂 -->
+		<property name="sqlSessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 8.文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 文件的总大小
+		<property name="maxUploadSize" value="#{1024*1024*1024}"></property>
+		一秒缓存4字节
+		<property name="maxInMemorySize" value="4094"></property>
+		指定编码格式
+		<property name="defaultEncoding" value="UTF-8"></property> -->
+	</bean>
+</beans>

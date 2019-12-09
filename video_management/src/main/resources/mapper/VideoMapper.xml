@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- namespace:代表这个文件的命名空间，根据这个名称可以定位到这个文件 -->
+  <mapper namespace="com.zhiyou.mapper.VideoMapper">	
+  <!-- 获取视频地址和教师姓名 -->
+
+
+
+<resultMap id="videoUrlMap" type="video">
+
+	<id property="video_id" column="Video_id" />
+
+	<result property="title" column="Title" />
+
+	<result property="detail" column="Detail" />
+
+	<result property="time" column="Time" />
+
+	<result property="speaker_id" column="Speaker_id" />
+
+	<result property="course_id" column="Course_id" />
+
+	<result property="video_url" column="Video_url" />
+
+	<result property="image_url" column="Image_url" />
+
+	<result property="play_num" column="Play_num" />
+
+
+	<collection property="speaker"
+		ofType="com.zhiyou.model.Speaker">
+
+		<id property="id" column="Id" />
+
+		<result property="speaker_name" column="Speaker_name" />
+
+		<result property="speaker_desc" column="Speaker_desc" />
+
+		<result property="speaker_job" column="Speaker_job" />
+
+		<result property="pic_url" column="Pic_url" />
+
+	</collection>
+
+</resultMap>
+ 	
+ 	<select id="selectVideoUrl" resultMap="videoUrlMap">
+	select * from video v,speaker s where v.video_id = #{video_id} and s.id =
+	v.speaker_id
+	</select>
+  	
+  	<!-- 查询课程信息和教师信息 -->
+
+
+
+<resultMap id="selectAllMap" type="video">
+
+	<id property="video_id" column="Video_id" />
+
+	<result property="title" column="Title" />
+
+	<result property="detail" column="Detail" />
+
+	<result property="time" column="Time" />
+
+	<result property="speaker_id" column="Speaker_id" />
+
+	<result property="course_id" column="Course_id" />
+
+	<result property="video_url" column="Video_url" />
+
+	<result property="image_url" column="Image_url" />
+
+	<result property="play_num" column="Play_num" />
+
+
+	<collection property="course"
+		ofType="com.zhiyou.model.Course">
+
+		<id property="id" column="Id" />
+
+		<result property="course_title" column="Course_title" />
+
+		<result property="course_desc" column="Course_desc" />
+
+		<result property="subject_id" column="Subject_id" />
+
+	</collection>
+
+
+	<collection property="speaker"
+		ofType="com.zhiyou.model.Speaker">
+
+		<id property="id" column="Id" />
+
+		<result property="speaker_name" column="Speaker_name" />
+
+		<result property="speaker_desc" column="Speaker_desc" />
+
+		<result property="speaker_job" column="Speaker_job" />
+
+		<result property="pic_url" column="Pic_url" />
+
+	</collection>
+
+</resultMap>
+  
+  <select id="selectAlls" resultMap="selectAllMap">
+	select * from video v,course c,speaker s where c.subject_id = #{1} AND c.id =
+	v.course_id and v.speaker_id = s.id
+</select>
+
+<insert id="add" parameterType="video">
+	
+	insert into video values(null,#{title},#{detail},#{time},#{speaker_id},#{course_id},#{video_url},#{image_url},#{play_num},#{remark}) 
+	
+	</insert>
+	
+	<delete id="delete">
+		delete from video where video_id=#{1221}
+	</delete>
+	
+	<select id="selectById" resultType="video">
+		select * from video where video_id=#{12}
+	</select>
+	
+	<update id="update" parameterType="video">
+			
+	update video set title=#{title},detail=#{detail},time=#{time},speaker_id=#{speaker_id},course_id=#{course_id},video_url=#{video_url},
+	image_url=#{image_url},play_num=#{play_num},remark=#{remark} where video_id=#{video_id}
+	
+	</update>
+	
+	<resultMap type="video" id="videoMap">
+		<id column="video_id" property="video_id"/>
+		<result column="title" property="title"/>
+		<result column="detail" property="detail"/>
+		<result column="time" property="time"/>
+		<result column="speaker_id" property="speaker_id"/>
+		<result column="course_id" property="course_id"/>
+		<result column="video_url" property="video_url"/>
+		<result column="image_url" property="image_url"/>
+		<result column="play_num" property="play_num"/>
+		<result column="remark" property="remark"/>
+		<association property="speaker" javaType="sp">
+			<id column="id" property="id"/>
+			<result column="speaker_name" property="speaker_name"/>
+			<result column="speaker_desc" property="speaker_desc"/>
+			<result column="speaker_job" property="speaker_job"/>
+			<result column="pic_url" property="pic_url"/>
+		</association>
+	</resultMap>
+<select id="selectAll3" parameterType="video" resultMap="videoMap">
+		select * from video v,speaker s where v.speaker_id=s.id limit #{0},#{1}
+	</select>
+	
+	<select id="selectVideoCount" parameterType="video" resultType="Integer">
+		select count(*) from video
+	</select>
+	
+	<delete id="dAll" >
+		delete from  video  where video_id in
+		
+		<foreach  collection="userIdList" item="i" open="(" separator="," close=")">
+	        #{i}
+	    </foreach>
+	</delete>
+	
+	
+	<!-- 模糊查询 -->
+	<select id="selectLikeVideo" resultMap="videoMap">
+		select * from video v,speaker s
+		<where>
+			<if test="title!=''">
+				title like concat('%',#{title},'%')
+			</if>
+			<if test="speaker_id!=0">
+				and speaker_id like concat('%',#{speaker_id},'%')
+			</if>
+			<if test="course_id!=0">
+				and course_id like concat('%',#{course_id},'%')
+			</if>
+		</where>
+		and v.speaker_id=s.id
+	</select>
+	
+	<resultMap type="sp" id="speakermap">
+		<id column="id" property="id" />
+		<result column="speaker_name" property="speaker_name" />
+		<result column="speaker_desc" property="speaker_desc" />
+		<result column="speaker_job" property="speaker_job" />
+		<result column="pic_url" property="pic_url" />
+	</resultMap>
+	<!-- 查询speaker的所有主讲人信息 -->
+	<select id="selectSpeaker" resultMap="speakermap">
+		select * from speaker
+	</select>
+
+	<resultMap type="course" id="coursemap">
+		<id column="id" property="id" />
+		<result column="course_title" property="course_title" />
+		<result column="course_desc" property="course_desc" />
+		<result column="subject_id" property="subject_id" />
+	</resultMap>
+
+
+
+	<select id="seleteCourse" resultMap="coursemap">
+		select * from course
+	</select>
+  
+  
+  </mapper>

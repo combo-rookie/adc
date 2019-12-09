@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!-- 用户 -->
+		<typeAlias type="com.zhiyou.model.User" alias="user"/>
+		<!-- Course -->
+		<typeAlias type="com.zhiyou.model.Course" alias="course"/>
+		<!-- video -->
+		<typeAlias type="com.zhiyou.model.Video" alias="video"/>
+		<!-- Admin -->
+		<typeAlias  type="com.zhiyou.model.Admin" alias="admin"/>
+		<!--  Speaker-->
+		<typeAlias  type="com.zhiyou.model.Speaker" alias="sp"/>
+		<!-- Subject -->
+		<typeAlias  type="com.zhiyou.model.Subject" alias="subject"/>
+	</typeAliases>
+</configuration>

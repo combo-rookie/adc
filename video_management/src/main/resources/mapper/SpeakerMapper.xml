@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace: 代表这个文件的命名空间,根据这个名称可以定位到这个文件 -->
+<mapper namespace="com.zhiyou.mapper.SpeakerMapper" >
+	<insert id="add" parameterType="sp">
+		insert into speaker values(null,#{speaker_name},#{speaker_desc},#{speaker_job},#{pic_url})
+	</insert>
+	
+  <delete id="delete">
+  
+ 		delete from speaker where id=#{12}
+  	
+  </delete>
+  
+	<select id="selectById" resultType="sp">
+	
+		select * from speaker where id=#{213}
+	
+	</select>
+
+	<update id="update" parameterType="sp">
+	
+	update speaker set speaker_name=#{speaker_name},speaker_desc=#{speaker_desc},speaker_job=#{speaker_job},pic_url=#{pic_url} where id=#{id}	
+
+	
+	</update>
+	
+	<select id="selectAll" parameterType="sp" resultType="sp">
+		select * from speaker limit #{0},#{1}
+	</select>
+	<select id="selectSpeakerCount" parameterType="sp" resultType="Integer">
+		select count(*) from speaker
+	</select>
+	
+<delete id="speakerAll" >
+		delete from  speaker  where id in
+		
+		<foreach collection="speakerList" item="id" open="(" separator="," close=")">
+	        #{id}
+	    </foreach>
+	</delete>
+	
+	
+
+
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- namespace:代表这个文件的命名空间，根据这个名称可以定位到这个文件 -->
+  <mapper namespace="com.zhiyou.mapper.CourseMapper">
+  	<resultMap type="course" id="courseMap">
+  		<id column="id" property="id"/>
+  		<result column="course_title" property="course_title"/>
+  		<result column="course_desc" property="course_desc"/>
+  		<result column="subject_id" property="subject_id"/>
+  		
+		<association property="subject" javaType="com.zhiyou.model.Subject">
+			<id column="subject_id" property="subject_id"/>
+			<id column="subject_name" property="subject_name"/>
+		</association>
+		<!-- 映射一个集合对象 -->
+		<collection property="videos" ofType="com.zhiyou.model.Video"  >
+			<id column="video_id" property="video_id"/>
+			<id column="title" property="title"/>
+			<id column="speaker_id" property="speaker_id"/>
+			<id column="course_id" property="course_id"/>
+			<result column="datail" property="datail"/>
+			<result column="time" property="time"/>
+			<result column="video_url" property="video_url"/>
+			<result column="image_url" property="image_url"/>
+			<result column="play_num" property="play_num"/>
+		</collection>
+  	</resultMap>
+  	
+  	<select id="selectById" resultMap="courseMap">
+  		select * from course where id=#{id}
+  	</select>
+ 	
+ 	<select id="selectBySubjectId" resultMap="courseMap">
+ 		select * from course c , video v where c.subject_id=#{subject_id} and c.id = v.course_id
+ 	</select>
+  
+  
+  <resultMap type="course" id="course">
+		<id column="id" property="id"/>
+		<result column="course_title" property="course_title"/>
+		<result column="course_desc" property="course_desc"/>
+		<result column="subject_id" property="subject_id"/>
+		
+  </resultMap>
+
+	
+	<insert id="add" parameterType="course">
+		insert into course values(null,#{course_title},#{course_desc},#{subject_id})
+	</insert>
+
+	<delete id="delete">
+	delete from course where id=#{12}
+		
+	</delete>
+	
+	<!-- <select id="selectById" resultMap="course">
+	
+		select * from course where id=#{213}
+	
+	</select> -->
+
+	<update id="update" parameterType="course">
+	
+	update course set course_title=#{course_title},	course_desc=#{course_desc} where id=#{id}	
+	
+	</update>
+	
+	<select id="selectAll" parameterType="course" resultType="course">
+	
+		select * from course limit #{0},#{1}
+		
+	</select>
+	
+	<select id="selectCourseCount" parameterType="course" resultType="Integer">
+	
+		select count(*) from course
+		
+	</select>		
+	
+	
+	<delete id="courseAll">
+		DELETE FROM  course  WHERE id IN
+		
+		<foreach collection="courseIds"  item="id" open="(" separator="," close=")">
+		#{id}	
+	    </foreach>
+	</delete>
+	<!-- 查询学科所有信息 -->
+  	<resultMap type="subject" id="subjectMap">
+  		<id column="subject_id" property="subject_id"/>
+  		<result column="subject_name" property="subject_name"/>
+  	</resultMap>
+  	<select id="selectSubjectAll" resultMap="subjectMap">
+  		select * from subject
+  	</select>
+  
+  
+  
+  </mapper>
+  
