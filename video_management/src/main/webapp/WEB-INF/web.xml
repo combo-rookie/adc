@@ -17,4 +17,13 @@
     <servlet-name>video_management</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>EncodeFilter</display-name>
+    <filter-name>EncodeFilter</filter-name>
+    <filter-class>com.zhiyou.controller.EncodeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodeFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

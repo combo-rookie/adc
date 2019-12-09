@@ -46,10 +46,32 @@ public class UserController {
 	// 用户登录
 	@ResponseBody
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-	public String user_login(HttpServletRequest req, HttpServletResponse resp, String email, String password) {
+	public void user_login(HttpServletRequest req, HttpServletResponse resp, String email, String password)
+			throws ServletException, IOException {
 		User user = service.selectByUsername(req, email, password);
 		req.getSession().setAttribute("list", user);
-		return "success";
+		req.getRequestDispatcher("welcome.jsp").forward(req, resp);
+	}
+
+	// 密码验证
+	@RequestMapping(value = "/pwdjudge", method = RequestMethod.POST)
+	public void pwdjudge(String name1, String name2, HttpServletRequest req, HttpServletResponse resp)
+			throws Exception {
+		User user = new User();
+		user.setPassword(name1);
+		user.setAccounts(name2);
+		System.out.println(user);
+		boolean b = service.selectUser(user);
+		resp.getWriter().write(b + "");
+	}
+
+	// 账号验证
+	@RequestMapping(value = "/loginjudge", method = RequestMethod.POST)
+	public void loginjudge(String name, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		User user = new User();
+		user.setAccounts(name);
+		boolean b = service.selectUser(user);
+		resp.getWriter().write(b + "");
 	}
 
 	// 退出登录

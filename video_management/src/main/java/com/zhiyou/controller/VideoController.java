@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zhiyou.model.Video;
 import com.zhiyou.service.VideoService;
+import com.zhiyou.util.FTPUtil;
 
 @Controller
 public class VideoController {
@@ -40,11 +42,21 @@ public class VideoController {
 
 	@RequestMapping("videoAdd")
 	public String addVideo(HttpServletRequest req, HttpServletResponse rep) {
+		req.setAttribute("speaker", service.selectSpeaker());
+		req.setAttribute("course", service.seleteCourse());
 		return "behind/VideoAdd";
 	}
 
 	@RequestMapping("add3")
-	public String add3(Video video, HttpServletRequest req, HttpServletResponse rep) {
+	public String add3(MultipartFile image1, MultipartFile video1, Video video, HttpServletRequest req,
+			HttpServletResponse rep) throws Exception {
+		String imgurl = FTPUtil.upload(image1.getInputStream(), image1.getOriginalFilename());
+
+		video.setImage_url(imgurl);
+
+		// 2.video
+		String videourl = FTPUtil.upload(video1.getInputStream(), video1.getOriginalFilename());
+		video.setVideo_url(videourl);
 		service.add(video);
 		return "forward:video";
 	}
@@ -58,11 +70,21 @@ public class VideoController {
 	@RequestMapping("selectById3")
 	public String selectString(int id, HttpServletRequest req, HttpServletResponse rep) {
 		req.setAttribute("video", service.selectById(id));
+		req.setAttribute("speaker", service.selectSpeaker());
+		req.setAttribute("course", service.seleteCourse());
 		return "behind/VideoUpdate";
 	}
 
 	@RequestMapping("update3")
-	public String update(Video video, HttpServletRequest req, HttpServletResponse rep) {
+	public String update(MultipartFile image1, MultipartFile video1, Video video, HttpServletRequest req,
+			HttpServletResponse rep) throws Exception {
+		String imgurl = FTPUtil.upload(image1.getInputStream(), image1.getOriginalFilename());
+
+		video.setImage_url(imgurl);
+
+		// 2.video
+		String videourl = FTPUtil.upload(video1.getInputStream(), video1.getOriginalFilename());
+		video.setVideo_url(videourl);
 		service.update(video);
 		return "forward:video";
 	}
@@ -74,12 +96,8 @@ public class VideoController {
 			HttpServletResponse response) {
 
 		List<Integer> userIdList = Arrays.asList(userIds);
-		System.err.println(userIdList);
-		System.out.println("+++++++++++++++++++++++++++++++++++++");
 
 		int num = service.dAll(userIdList);
-
-		System.err.println(num);
 
 		if (num == 1 || num == 2 || num == 3 || num == 4 || num == 5) {
 
@@ -98,7 +116,6 @@ public class VideoController {
 		String title = req.getParameter("title") == null ? "" : req.getParameter("title");
 		Integer speaker_id = req.getParameter("speaker_id") == null || req.getParameter("speaker_id") == "" ? 0
 				: Integer.valueOf(req.getParameter("speaker_id"));
-		System.err.println(speaker_id);
 		Integer course_id = req.getParameter("course_id") == null || req.getParameter("course_id") == "" ? 0
 				: Integer.valueOf(req.getParameter("course_id"));
 

@@ -66,4 +66,34 @@
  		</set>
  		where id=#{id}
  </update>
+ 
+ <select id="selectUser" resultMap="userMap">
+  		select * from user
+		<where>
+			<if test="accounts!=null">
+				accounts=#{accounts}
+			</if>
+			<if test="phone!=null">
+				and phone=#{phone}
+			</if>
+			<if test="password!=null">
+				and password=#{password}
+			</if>
+			<if test="nickname!=null">
+				and nickname=#{nickname}
+			</if>
+			<if test="sex!=null">
+				and sex=#{sex}
+			</if>
+			<if test="birthday!=null">
+				and birthday=#{birthday}
+			</if>
+			<if test="address!=null">
+				and address=#{address}
+			</if>
+			<if test="imgurl!=null">
+				and imgurl=#{imgurl}
+			</if>
+		</where>
+  	</select>
   </mapper>

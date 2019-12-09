@@ -3,6 +3,8 @@
  */
 package com.zhiyou.service.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,16 @@ public class UserServiceImpl implements UserService {
 			return user;
 		} else {
 			return null;
+		}
+	}
+
+	@Override
+	public boolean selectUser(User user) {
+		List<User> list = mapper.selectUser(user);
+		if (list.size() != 0) {
+			return true;// true代表有
+		} else {
+			return false;
 		}
 	}
 

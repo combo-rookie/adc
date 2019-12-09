@@ -84,7 +84,7 @@ th {
 			<button onclick="deleteAll()" type="submit" id="btn"
 				class="btn btn-info dropdown-toggle">批量删除</button>
 		</div>
-		</from>
+	
 		<form action="selectLikeVideo">
 			<div style="float: right;">
 
@@ -175,7 +175,7 @@ th {
 			<a class="btn btn-default" href="javascript:history.go(-1)">返回</a>
 		</div>
 	</div>
-
+	</from>
 	<script type="text/javascript">
 		function showAddPage(){
 			location.href="videoAdd";

@@ -174,31 +174,33 @@
 		</footer>
 
 
-		<!--登录弹出框-->
 
-		<div class="mask hidden" id="login">
-			<div class="mask_content">
-				<div class="mask_content_header">
-					<img src="static/z/logo.png" class="ma">
-				</div>
-				<div class="mask_content_body">
-					<form id="loginForm" action="loginUser" method="post">
-						<h3>快速登录</h3>
-						<input id="loginEmail" placeholder="请输入邮箱" name="email" type="email"> 
-						<input id="loginPassword" placeholder="请输入密码" name="password" type="password">
-						<div id="forget">
-							<a href="">忘记密码？</a> <a id="reg_open">注册</a>
-						</div>
-						<input onclick="return commitLogin1();" value="登　录" type="submit">
-					</form>
-				</div>
-				<div class="mask_content_footer">
-					<span id="login_close">关 闭</span>
-				</div>
+  <!-- 登录弹出框 -->
+	<div class="mask hidden" id="login">
+		<div class="mask_content">
+			<div class="mask_content_header">
+				<img src="static/z/logo.png" class="ma">
+			</div>
+			<div class="mask_content_body">
+				<form id="loginForm" action="loginUser" method="post">
+					<h3>快速登录</h3>
+					<input id="loginEmail" placeholder="请输入邮箱" name="email"
+						type="email"><span id="msg"></span> <input
+						id="loginPassword" placeholder="请输入密码" name="password"
+						type="password"><span id="pss"></span> <span id="Msg"></span>
+
+					<div id="forget">
+						<a href="">忘记密码？</a> <a id="reg_open">注册</a>
+					</div>
+					<input onclick="return result2();" value="登　录" type="submit">
+				</form>
+			</div>
+			<div class="mask_content_footer">
+				<span id="login_close">关 闭</span>
 			</div>
 		</div>
-
-		<!--注册弹出框-->
+	</div>
+	<!--注册弹出框-->
 		<div class="mask hidden" id="reg">
 			<div class="mask_content">
 				<div class="mask_content_header">
@@ -241,35 +243,6 @@
 		<script src="${pageContext.request.contextPath}/static/js/gVerify.js"></script>
 		<script src="${pageContext.request.contextPath}/static/js/index.js"></script>
 <script type="text/javascript">
-var flag =false;
-$("li").click(function(){
-	var value= $("#user_id").val();
-	if(null== value || "" == value ){
-		 $("#login").removeClass("hidden");
-
-	}else{
-
-	}
-});
-
-function commitLogin1(){
-	
-	   var email =$("#loginEmail").val();
-	   var password =$("#loginPassword").val();
-	   if(null!=email && email!="" && null!=password && password!=""){
-	        var params=$("#loginForm").serialize();
-	       // alert(params);
-	        // post要小写
-	        $.post("loginUser",params,function(data){
-	                 if(data=='success'){
-	                     document.location.href="welcome.jsp";
-	                 }
-	        });
-	        return false;
-	   }
-	   return false;
-	}
-
 
 </script>
 

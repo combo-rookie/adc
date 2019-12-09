@@ -59,7 +59,7 @@ $('#login_close').click(function(){
 function outLogin(){
         $.post("exit",null,function(data){
                  if(data=='success'){
-                      document.location.reload();
+                      document.location.href="welcome.jsp";
                    }
         });
         return false;
@@ -156,17 +156,6 @@ $("#regPswAgain").blur(function(){
       
 });
 
-/*$("#loginout").click(function(){
-     
-     $.get("front/user/loginOut.action",null,function(){
-          $("#regBlock").css("display","block");
-          $("#userBlock").css("display","none");
-     });
-
-});*/
-
-
-
 //注册
 var regIsCommitEmail=false;
 var regIsCommitPsw=false;
@@ -227,6 +216,9 @@ function commitLogin(){
         $.post("loginUser",params,function(data){
                  if(data=='success'){
                       document.location.reload();
+                 }else{
+                	 $("#Msg").text("账号/密码错误").css("color","red");
+                	 return false;
                  }
         });
         return false;
@@ -235,26 +227,99 @@ function commitLogin(){
    return false;
 }
 
+//**************************************************
 
-function commitLogin1(){
-	
-	
-	   var email =$("#loginEmail").val();
-	   var password =$("#loginPassword").val();
-	   if(null!=email && email!="" && null!=password && password!=""){
-	        var params=$("#loginForm").serialize();
-	       // alert(params);
-	        // post要小写
-	        $.post("loginUser",params,function(data){
-	                 if(data=='success'){
-	                      document.location.href="";
-	                 }
-	        });
-	        return false;
-	   }
-	   
-	   return false;
+
+//登录用到的ajax验证
+var flag="false";
+var flag1="false";
+$("#loginEmail").blur(function(){
+    var account= $("#loginEmail").val();
+    if(null==account || ""==account ){
+        $("#msg").text("账号不能为空").css("color","red");
+        flag =false;
+    }else{
+    	$("#msg").text("");
+        $.ajax({
+        	type:"post",
+            url:"loginjudge",
+            data:{
+                name:$("#loginEmail").val(),
+            },
+            success:function(data){
+                if(data=="false"){
+                    $("#msg").text("账号不存在").css("color","red");
+                    flag =false;
+                }else{
+                    $("#msg").text("");
+                    flag =true;
+                }
+            }
+        })
+    }
+});
+
+$("#loginPassword").blur(function(){
+	var account= $("#loginEmail").val();
+    var pwd= $("#loginPassword").val();
+    if(null==pwd || ""==pwd ){
+        $("#pss").text("密码不能为空").css("color","red");
+        flag1 =false;
+    }else{
+        $.ajax({
+        	type:"post",
+            url:"pwdjudge",
+            data:{
+                name1:$("#loginPassword").val(),
+                name2:$("#loginEmail").val(),
+            },
+            success:function(data){
+                if(data=="false"){
+                    $("#pss").text("密码错误").css("color","red");
+                    flag1 =false;
+                }else{
+                    $("#pss").text("");
+                    flag1 =true;
+                }
+            }
+        })
+    }
+});
+
+
+function result(){
+    if(flag==true&&flag1==true){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+//*******************************************************************
+//页面视频登录
+var flag =false;
+$("li").click(function(){
+	var value= $("#user_id").val();
+	if(null== value || "" == value ){
+		 $("#login").removeClass("hidden");
+
+	}else{
+
 	}
+});
+
+
+	function result2(){
+	    if(flag==true&&flag1==true){
+	    	document.location.href="welcome.jsp";
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+
+
 
 //
 function addFavorite2() {

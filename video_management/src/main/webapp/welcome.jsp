@@ -205,15 +205,17 @@
 			<img src="static/z/logo.png"  class="ma">
 		</div>
 		<div class="mask_content_body">
-			<form id="loginForm" action="loginUser">
+			<form id="loginForm" action="loginUser" method="post">
 				<h3>快速登录</h3>
-				<input id="loginEmail" placeholder="请输入邮箱" name="email" type="email">
-				<input id="loginPassword" placeholder="请输入密码" name="password" type="password">
+				<input id="loginEmail" placeholder="请输入邮箱" name="email" type="email"><span id="msg"></span>
+				<input id="loginPassword" placeholder="请输入密码" name="password" type="password"><span id="pss"></span>
+				<span id="Msg"></span>
+				
 				<div id="forget">
 					<a href="">忘记密码？</a>
 					<a id="reg_open">注册</a>
 					</div>
-				<input onclick="return commitLogin()" value="登　录" type="submit">
+				<input onclick="return result();" value="登　录" type="submit">
 			</form>
 		</div>
 		<div class="mask_content_footer">
@@ -250,10 +252,5 @@
 <script src="static/js/jquery-1.js"></script>
 <script src="static/js/gVerify.js"></script>
 <script src="static/js/index.js"></script>
-
-
-    
-
-
 
 </body></html>

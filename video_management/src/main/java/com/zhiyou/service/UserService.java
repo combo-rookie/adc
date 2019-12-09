@@ -35,4 +35,7 @@ public interface UserService {
 
 	// 根据邮箱查询用户
 	User selectByAccounts(String accounts);
+
+//	5.查找用户
+	boolean selectUser(User user);
 }

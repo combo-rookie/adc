@@ -3,6 +3,8 @@
  */
 package com.zhiyou.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.zhiyou.model.User;
@@ -30,5 +32,8 @@ public interface UserMapper {
 
 	// 根据id查询用户
 	User selectById(int id);
+
+	// 查找用户
+	List<User> selectUser(User user);
 
 }
